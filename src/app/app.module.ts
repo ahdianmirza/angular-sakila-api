@@ -18,15 +18,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterComponent,
     MainLayoutComponent,
     AboutComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -3,6 +3,7 @@
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
+  <button mat-raised-button color="primary" (click)="openDialog()">Add</button>
 
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>

@@ -3,6 +3,9 @@ import { ListApiService } from 'src/app/service/list-api.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { DialogBodyComponent } from './dialog-body/dialog-body.component';
+import { MatDialog } from '@angular/material/dialog';
+
 import * as moment from 'moment';
 
 export interface ListData {
@@ -23,7 +26,7 @@ export class ActorComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private apiService: ListApiService) {}
+  constructor(private apiService: ListApiService, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.apiService.getAllActors().subscribe((response: any) => {
@@ -52,5 +55,9 @@ export class ActorComponent implements OnInit {
     } else {
       return date;
     }
+  }
+
+  openDialog() {
+    this.matDialog.open(DialogBodyComponent)
   }
 }
