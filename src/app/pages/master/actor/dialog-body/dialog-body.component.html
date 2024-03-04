@@ -1,24 +1,28 @@
-<mat-dialog-content>
-  <header>
-    <h1>Add Data</h1>
-  </header>
+<div mat-dialog-title class="title">{{ inputData.title }}</div>
 
-  <p>
-    <mat-form-field>
-      <input matInput placeholder="First name">
-      <mat-icon matSuffix>person</mat-icon>
+<form [formGroup]="actorAddForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput type="text" placeholder="Ex. Ahdian" formControlName="first_name">
     </mat-form-field>
-  </p>
-
-  <p>
-    <mat-form-field>
-      <input matInput placeholder="Last name">
-      <mat-icon matSuffix>person</mat-icon>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput type="text" placeholder="Ex. Mirza" formControlName="last_name">
     </mat-form-field>
-  </p>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end" style="margin: 8px;">
-  <button mat-raised-button color="primary">Submit</button>
-  <button mat-raised-button color="warn" matDialogClose>Close</button>
-</mat-dialog-actions>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Last Update</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="last_update">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button>Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+  </div>
+</form>

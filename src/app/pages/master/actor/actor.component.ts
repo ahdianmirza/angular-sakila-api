@@ -29,6 +29,10 @@ export class ActorComponent implements OnInit {
   constructor(private apiService: ListApiService, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.loadActor();
+  }
+
+  loadActor() {
     this.apiService.getAllActors().subscribe((response: any) => {
       if (response.status === true) {
         this.dataSource = new MatTableDataSource(response.data);
@@ -58,6 +62,17 @@ export class ActorComponent implements OnInit {
   }
 
   openDialog() {
-    this.matDialog.open(DialogBodyComponent)
+    const addDialog = this.matDialog.open(DialogBodyComponent, {
+      width: '40%',
+      enterAnimationDuration: '200ms',
+      exitAnimationDuration: '200ms',
+      data: {
+        title: "Add Actor Data"
+      }
+    });
+
+    addDialog.afterClosed().subscribe(data => {
+      this.loadActor();
+    });
   }
 }
