@@ -18,7 +18,7 @@ export interface ListData {
   styleUrls: ['./actor.component.css'],
 })
 export class ActorComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'first', 'last', 'update'];
+  displayedColumns: string[] = ['id', 'first', 'last', 'update', 'actions'];
   dataSource!: MatTableDataSource<ListData>;
 
   @ViewChild(MatPaginator)
@@ -26,21 +26,28 @@ export class ActorComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private apiService: ListApiService, private matDialog: MatDialog) {}
+  constructor(
+    private _apiService: ListApiService,
+    private matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.loadActor();
+    this.getAllActorData();
   }
 
-  loadActor() {
-    this.apiService.getAllActors().subscribe((response: any) => {
-      if (response.status === true) {
-        this.dataSource = new MatTableDataSource(response.data);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      } else {
+  getAllActorData() {
+    this._apiService.getAllActors().subscribe({
+      next: (res: any) => {
+        if (res.status === true) {
+          this.dataSource = new MatTableDataSource(res.data);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        }
+      },
+      error: (err: any) => {
         this.dataSource = new MatTableDataSource();
-      }
+        console.info(err);
+      },
     });
   }
 
@@ -67,12 +74,29 @@ export class ActorComponent implements OnInit {
       enterAnimationDuration: '200ms',
       exitAnimationDuration: '200ms',
       data: {
-        title: "Add Actor Data"
-      }
+        title: 'Add Actor Data',
+      },
     });
 
-    addDialog.afterClosed().subscribe(data => {
-      this.loadActor();
+    addDialog.afterClosed().subscribe({
+      next: (val: boolean) => {
+        if (val) {
+          this.getAllActorData();
+        }
+      },
+      error: (err: any) => console.info(err)
     });
+  }
+
+  deleteActor(id: number) {
+    this._apiService.delete(id).subscribe({
+      next: (res: any) => {
+        alert("Actor deleted successfully");
+        this.getAllActorData();
+      },
+      error: (err) => {
+        console.info(err);
+      }
+    })
   }
 }

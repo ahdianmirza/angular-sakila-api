@@ -16,7 +16,7 @@ export class DialogBodyComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _dialogRef: MatDialogRef<DialogBodyComponent>,
     private _formBuilder: FormBuilder,
-    private _service: ListApiService
+    private _apiservice: ListApiService
   ) {
     this.actorAddForm = this._formBuilder.group({
       first_name: '',
@@ -30,21 +30,20 @@ export class DialogBodyComponent implements OnInit {
   }
 
   closeDialog() {
-    this._dialogRef.close();
+    this._dialogRef.close(true);
   }
 
   onFormSubmit() {
     if (this.actorAddForm.valid) {
-      console.info(this.actorAddForm.value);
-      this._service.addActor(this.actorAddForm.value).subscribe({
+      this._apiservice.addActor(this.actorAddForm.value).subscribe({
         next: (val: any) => {
           alert('Actor added successfully');
           this.closeDialog();
         },
         error: (err: any) => {
-          console.info(err)
-        }
-      })
+          console.info(err);
+        },
+      });
     }
   }
 }

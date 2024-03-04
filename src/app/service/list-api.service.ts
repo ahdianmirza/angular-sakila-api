@@ -24,5 +24,7 @@ export class ListApiService {
 
   getById = (id: number) => this.http.get<ActorModel>(`${this.baseUrl}actor/${id}`);
 
-  delete = (id: number) => this.http.delete<any>(`${this.baseUrl}actor/${id}`);
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}actor/${id}`);
+  }
 }

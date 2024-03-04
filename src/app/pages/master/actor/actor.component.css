@@ -11,3 +11,8 @@
 .container button {
   float: right;
 }
+.container .search {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
