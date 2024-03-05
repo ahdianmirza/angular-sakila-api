@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ListApiService } from 'src/app/service/list-api.service';
+import { ListApiService } from 'src/app/service/api/list-api.service';
 
 @Component({
   selector: 'app-film',

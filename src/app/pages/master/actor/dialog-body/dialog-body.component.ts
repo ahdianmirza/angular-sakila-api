@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ListApiService } from 'src/app/service/list-api.service';
+import { AlertService } from 'src/app/service/alert/alert.service';
+import { ListApiService } from 'src/app/service/api/list-api.service';
 
 @Component({
   selector: 'app-dialog-body',
@@ -10,15 +11,16 @@ import { ListApiService } from 'src/app/service/list-api.service';
 })
 export class DialogBodyComponent implements OnInit {
   inputData: any;
-  actorAddForm: FormGroup;
+  actorForm: FormGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _dialogRef: MatDialogRef<DialogBodyComponent>,
     private _formBuilder: FormBuilder,
-    private _apiservice: ListApiService
+    private _apiservice: ListApiService,
+    private _alertService: AlertService
   ) {
-    this.actorAddForm = this._formBuilder.group({
+    this.actorForm = this._formBuilder.group({
       first_name: '',
       last_name: '',
       last_update: ''
@@ -27,23 +29,38 @@ export class DialogBodyComponent implements OnInit {
 
   ngOnInit(): void {
     this.inputData = this.data;
+    this.actorForm.patchValue(this.data.editData);
   }
 
-  closeDialog() {
-    this._dialogRef.close(true);
+  closeDialog(cond: boolean) {
+    if (cond) {
+      this._dialogRef.close(true);
+    }
   }
 
   onFormSubmit() {
-    if (this.actorAddForm.valid) {
-      this._apiservice.addActor(this.actorAddForm.value).subscribe({
-        next: (val: any) => {
-          alert('Actor added successfully');
-          this.closeDialog();
-        },
-        error: (err: any) => {
-          console.info(err);
-        },
-      });
+    if (this.actorForm.valid) {
+      if (this.data.editData) {
+        this._apiservice.editActor(this.data.editData.actor_id, this.actorForm.value).subscribe({
+          next: (val: any) => {
+            this._alertService.openSnackBar('Actor updated');
+            this._dialogRef.close(true);
+          },
+          error: (err: any) => {
+            console.info(err);
+          },
+        });
+      } else {
+        this._apiservice.addActor(this.actorForm.value).subscribe({
+          next: (val: any) => {
+            this._alertService.openSnackBar('Actor added successfully');
+            this._dialogRef.close(true);
+          },
+          error: (err: any) => {
+            console.info(err);
+          },
+        });
+      }
     }
   }
 }

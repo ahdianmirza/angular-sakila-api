@@ -3,7 +3,7 @@
     <mat-label>Search</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="openDialog()">Add</button>
+  <button mat-raised-button color="primary" (click)="openAddDialog()">Add</button>
 
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -36,7 +36,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
         <td mat-cell *matCellDef="let row" style="display: flex;">
-          <button mat-icon-button color="primary">
+          <button mat-icon-button color="primary" (click)="openEditDialog(row)">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button color="accent" (click)="deleteActor(row.actor_id)">

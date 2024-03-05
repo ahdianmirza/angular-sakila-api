@@ -1,6 +1,6 @@
 <div mat-dialog-title class="title">{{ inputData.title }}</div>
 
-<form [formGroup]="actorAddForm" (ngSubmit)="onFormSubmit()">
+<form [formGroup]="actorForm" (ngSubmit)="onFormSubmit()">
   <div mat-dialog-content class="content">
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
@@ -22,7 +22,7 @@
   </div>
   
   <div mat-dialog-actions class="action">
-    <button mat-raised-button color="primary" type="submit">Save</button>
-    <button mat-raised-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" type="submit">{{ data.editData ? 'Update' : 'Save' }}</button>
+    <button mat-raised-button mat-dialog-close type="button">Cancel</button>
   </div>
 </form>

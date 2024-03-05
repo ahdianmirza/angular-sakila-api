@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ListApiService } from 'src/app/service/list-api.service';
+import { ListApiService } from 'src/app/service/api/list-api.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import { MatDialog } from '@angular/material/dialog';
 
 import * as moment from 'moment';
+import { AlertService } from 'src/app/service/alert/alert.service';
 
 export interface ListData {
   id: string
@@ -28,7 +29,8 @@ export class ActorComponent implements OnInit {
 
   constructor(
     private _apiService: ListApiService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private _alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class ActorComponent implements OnInit {
     }
   }
 
-  openDialog() {
+  openAddDialog() {
     const addDialog = this.matDialog.open(DialogBodyComponent, {
       width: '40%',
       enterAnimationDuration: '200ms',
@@ -91,12 +93,33 @@ export class ActorComponent implements OnInit {
   deleteActor(id: number) {
     this._apiService.delete(id).subscribe({
       next: (res: any) => {
-        alert("Actor deleted successfully");
+        this._alertService.openSnackBar("Actor deleted", 'Done');
         this.getAllActorData();
       },
       error: (err) => {
         console.info(err);
       }
     })
+  }
+
+  openEditDialog(data: any) {
+    const editDialog = this.matDialog.open(DialogBodyComponent, {
+      width: '40%',
+      enterAnimationDuration: '200ms',
+      exitAnimationDuration: '200ms',
+      data: {
+        title: 'Edit Actor Data',
+        editData: data
+      },
+    });
+
+    editDialog.afterClosed().subscribe({
+      next: (val: boolean) => {
+        if (val) {
+          this.getAllActorData();
+        }
+      },
+      error: (err: any) => console.info(err),
+    });
   }
 }
