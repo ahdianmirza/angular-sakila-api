@@ -1,0 +1,11 @@
+.content mat-form-field:nth-child(1) {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.action {
+  padding: 0 25px 20px;
+}
+.action button {
+  flex-grow: 1;
+}

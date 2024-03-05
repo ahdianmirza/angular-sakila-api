@@ -19,7 +19,7 @@ export interface ListData {
   styleUrls: ['./actor.component.css'],
 })
 export class ActorComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'first', 'last', 'update', 'actions'];
+  displayedColumns: string[] = ['id', 'first', 'last_update', 'actions'];
   dataSource!: MatTableDataSource<ListData>;
 
   @ViewChild(MatPaginator)

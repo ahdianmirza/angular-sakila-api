@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DialogComponent } from './category/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,11 +29,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CategoryComponent,
     LanguageComponent,
     DialogBodyComponent,
+    DialogComponent,
   ],
   imports: [
     CommonModule,
     MasterRoutingModule,
-    MatFormFieldModule,
     MatInputModule,
     MatTableModule,
     MatSortModule,
